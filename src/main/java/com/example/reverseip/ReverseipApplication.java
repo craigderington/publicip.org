@@ -19,7 +19,13 @@ public class ReverseipApplication {
 class ReverseIpController {
     @GetMapping(value = "/", produces = "text/html")
     public String getReverseIp(HttpServletRequest request) {
-        String ip = request.getRemoteAddr();
+        String ip = request.getHeader("X-Forwarded-For");
+        if (ip == null || ip.isEmpty()) {
+            ip = request.getRemoteAddr();
+        } else {
+            // get the first IP in the chain, the client's ip address
+            ip = ip.split(",")[0].trim();
+        }
         try {
             String reversePointer = getReversePointer(ip);
             return """
@@ -46,6 +52,7 @@ class ReverseIpController {
         InetAddress addr = InetAddress.getByName(ip);
         if (addr instanceof java.net.Inet4Address) {
             // IPv4: Construct x.x.x.x.in-addr.arpa
+            System.out.println(ip);
             String[] octets = ip.split("\\.");
             return String.format("%s.%s.%s.%s.in-addr.arpa",
                     octets[3], octets[2], octets[1], octets[0]);
