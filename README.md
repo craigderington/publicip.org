@@ -25,6 +25,80 @@
 - **🔄 Refresh** - Quick page reload
 - **💾 Download** - Save diagnostics as timestamped text file
 
+### 🖥️ Dual-View Interface
+
+#### Classic View (Default)
+- All diagnostic information displayed at once
+- Traditional layout with full details
+- Perfect for quick overview and copy/paste operations
+
+#### Terminal Mode (Interactive)
+Experience an authentic command-line interface with:
+
+**Command Prompt**: `publicip> _`
+- Type commands to explore network diagnostics interactively
+- Blinking cursor for that retro terminal feel
+
+**Available Commands**:
+- `ip` - Show IP address and reverse DNS pointer
+- `headers` - Display all HTTP headers
+- `connection` - Show connection details (protocol, method, scheme)
+- `all` - Display complete diagnostics (Classic View content)
+- `clear` - Clear the terminal screen
+- `help` - Show available commands and shortcuts
+- `download` - Download session as timestamped text file
+- `history` - Show command history
+
+**Advanced Features**:
+- **Command History** - Use ↑/↓ arrow keys to navigate previous commands
+- **Tab Completion** - Press Tab to auto-complete command names
+- **Keyboard Shortcuts**:
+  - `Ctrl+C` - Clear current input
+  - `Ctrl+L` - Clear screen (same as `clear` command)
+- **Typing Animation** - Watch responses appear character-by-character (for short output)
+- **Color-Coded Output**:
+  - Green (#00ff00) - Successful commands
+  - Cyan (#00ffff) - Informational messages
+  - Red (#ff0000) - Error messages
+- **Smart Rendering** - Long output displays instantly; short output animates
+
+**Visual Design**:
+- Eye-catching cyan "TERMINAL MODE" button with glow effect
+- Dark terminal output area with custom scrollbar
+- Left-aligned button layout for clean UI
+- Authentic terminal aesthetic matching the overall theme
+
+**Example Session**:
+```
+╔════════════════════════════════════════════════════════════════╗
+║               IP ADDRESS DIAGNOSTIC TOOL                       ║
+╚════════════════════════════════════════════════════════════════╝
+
+Your IP: 203.0.113.42
+
+Type 'help' for available commands.
+
+publicip> ip
+┌─ IP INFORMATION ────────────────────────────────────────────┐
+│ Detected IP:        203.0.113.42
+│ Reverse Pointer:    42.113.0.203.in-addr.arpa
+└─────────────────────────────────────────────────────────────┘
+
+publicip> help
+Available Commands:
+  ip           - Show IP address and reverse pointer
+  headers      - Display all HTTP headers
+  ...
+
+publicip> _
+```
+
+**Technical Architecture**:
+- **Client-side only** - All data loaded once on page load for instant response
+- **No external libraries** - Custom lightweight terminal emulator
+- **Class-based design** - ViewToggle, Terminal, CommandParser, TerminalRenderer
+- **Smart data structure** - JSON-formatted sections for efficient filtering
+
 ### Security & Deployment
 - **Reverse proxy ready** - Designed to run behind Apache/Nginx
 - **Localhost binding** - Only listens on 127.0.0.1 for security
@@ -282,66 +356,46 @@ diagnostics.append(String.format("│ Custom Header:      %s\n",
 
 ## 🗺️ Roadmap
 
-### Next Release: Interactive Terminal Interface
+### ✅ Completed: Interactive Terminal Interface
 
-Transform the application into a fully interactive terminal experience:
+The interactive terminal mode has been fully implemented! Features include:
+- Dual-view interface (Classic + Terminal Mode)
+- 8 interactive commands with command history
+- Tab completion and keyboard shortcuts
+- Typing animations and color-coded output
+- Custom lightweight terminal emulator
 
-**Interactive Shell Features:**
-- **On Load**: Display detected IP address with command prompt
-- **Command Prompt**: `publicip> _` with cursor blink
-- **Available Commands**:
-  - `ip` - Show current IP address and reverse pointer
-  - `headers` - Display all HTTP headers
-  - `connection` - Show connection details (protocol, method, scheme)
-  - `all` - Display complete diagnostics (current view)
-  - `clear` - Clear the terminal screen
-  - `help` - Show available commands
-  - `download` - Download current session as text file
-  - `history` - Show command history
-- **Command History**: Arrow up/down to navigate previous commands
-- **Auto-complete**: Tab completion for commands
-- **Terminal Effects**:
-  - Typing animation for responses
-  - Command echo with green text
-  - Error messages in red
-  - Syntax highlighting for output sections
+See the **Dual-View Interface** section above for full documentation.
 
-**Technical Implementation:**
-- JavaScript-based terminal emulator
-- WebSocket support for real-time updates (optional)
-- Local storage for command history
-- Keyboard shortcuts (Ctrl+C, Ctrl+L, etc.)
+### 🔮 Future Enhancements
 
-**Example Session:**
-```
-╔════════════════════════════════════════════════════════════════╗
-║               IP ADDRESS DIAGNOSTIC TOOL                       ║
-╚════════════════════════════════════════════════════════════════╝
+**Terminal Improvements**:
+- **Persistent History** - Save command history across sessions using localStorage
+- **Command Aliases** - Custom shortcuts for frequently used commands (e.g., `h` for `help`)
+- **Multi-line Support** - Handle longer commands with line wrapping
+- **Search Functionality** - Search within terminal output (Ctrl+F)
+- **Copy Selection** - Select and copy portions of terminal output
+- **Terminal Themes** - Additional color schemes (amber, cyan, matrix green)
 
-Your IP: 203.0.113.42
+**New Commands**:
+- `whois <domain>` - WHOIS lookup information (requires backend enhancement)
+- `dns <domain>` - DNS resolution lookup (requires backend enhancement)
+- `geoip` - Geographic location information (requires backend enhancement)
+- `latency` - Show server response time
+- `export <format>` - Export diagnostics in JSON, CSV, or XML format
 
-publicip> headers
-Fetching HTTP headers...
+**Advanced Features**:
+- **WebSocket Support** - Real-time updates without page refresh
+- **Session Recording** - Record and replay terminal sessions
+- **API Endpoint** - RESTful API for programmatic access
+- **Plugins System** - Extensible command plugin architecture
+- **Multi-language Support** - i18n for commands and output
 
-┌─ HTTP HEADERS ──────────────────────────────────────────────┐
-│ host              : publicip.org
-│ user-agent        : Mozilla/5.0...
-│ x-forwarded-for   : 203.0.113.42
-└─────────────────────────────────────────────────────────────┘
-
-publicip> connection
-Displaying connection details...
-
-┌─ CONNECTION DETAILS ────────────────────────────────────────┐
-│ Protocol:           HTTP/1.1
-│ Method:             GET
-│ Scheme:             https
-└─────────────────────────────────────────────────────────────┘
-
-publicip> _
-```
-
-This would create an ultra-cool, authentic terminal experience where users can explore their network information interactively rather than seeing everything at once.
+**UI Enhancements**:
+- **Font Size Controls** - Adjustable terminal font size
+- **Fullscreen Mode** - Dedicated fullscreen terminal experience
+- **Split View** - Show Classic and Terminal modes side-by-side
+- **Mobile Optimizations** - Enhanced mobile keyboard handling
 
 ## 📝 License
 
