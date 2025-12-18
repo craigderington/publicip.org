@@ -280,6 +280,69 @@ diagnostics.append(String.format("│ Custom Header:      %s\n",
 - **No DNS lookups** - prevents DNS-based attacks
 - **Input validation** - uses Java's InetAddress for safe IP parsing
 
+## 🗺️ Roadmap
+
+### Next Release: Interactive Terminal Interface
+
+Transform the application into a fully interactive terminal experience:
+
+**Interactive Shell Features:**
+- **On Load**: Display detected IP address with command prompt
+- **Command Prompt**: `publicip> _` with cursor blink
+- **Available Commands**:
+  - `ip` - Show current IP address and reverse pointer
+  - `headers` - Display all HTTP headers
+  - `connection` - Show connection details (protocol, method, scheme)
+  - `all` - Display complete diagnostics (current view)
+  - `clear` - Clear the terminal screen
+  - `help` - Show available commands
+  - `download` - Download current session as text file
+  - `history` - Show command history
+- **Command History**: Arrow up/down to navigate previous commands
+- **Auto-complete**: Tab completion for commands
+- **Terminal Effects**:
+  - Typing animation for responses
+  - Command echo with green text
+  - Error messages in red
+  - Syntax highlighting for output sections
+
+**Technical Implementation:**
+- JavaScript-based terminal emulator
+- WebSocket support for real-time updates (optional)
+- Local storage for command history
+- Keyboard shortcuts (Ctrl+C, Ctrl+L, etc.)
+
+**Example Session:**
+```
+╔════════════════════════════════════════════════════════════════╗
+║               IP ADDRESS DIAGNOSTIC TOOL                       ║
+╚════════════════════════════════════════════════════════════════╝
+
+Your IP: 203.0.113.42
+
+publicip> headers
+Fetching HTTP headers...
+
+┌─ HTTP HEADERS ──────────────────────────────────────────────┐
+│ host              : publicip.org
+│ user-agent        : Mozilla/5.0...
+│ x-forwarded-for   : 203.0.113.42
+└─────────────────────────────────────────────────────────────┘
+
+publicip> connection
+Displaying connection details...
+
+┌─ CONNECTION DETAILS ────────────────────────────────────────┐
+│ Protocol:           HTTP/1.1
+│ Method:             GET
+│ Scheme:             https
+└─────────────────────────────────────────────────────────────┘
+
+publicip> _
+```
+
+This would create an ultra-cool, authentic terminal experience where users can explore their network information interactively rather than seeing everything at once.
+
 ## 📝 License
 
 Apache License 2.0 - See [LICENSE](LICENSE) file for details.
