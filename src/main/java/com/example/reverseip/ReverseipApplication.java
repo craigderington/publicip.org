@@ -327,11 +327,11 @@ class ReverseIpController {
             <body>
                 <div class="container">
                     <div class="view-controls">
-                        <button id="toggleClassic" class="view-toggle active">CLASSIC VIEW</button>
-                        <button id="toggleTerminal" class="view-toggle">TERMINAL MODE</button>
+                        <button id="toggleClassic" class="view-toggle">CLASSIC VIEW</button>
+                        <button id="toggleTerminal" class="view-toggle active">TERMINAL MODE</button>
                     </div>
 
-                    <div id="classicView" class="view-container active">
+                    <div id="classicView" class="view-container active hidden">
                         <div class="controls">
                             <button onclick="copyToClipboard()">⎘ COPY TO CLIPBOARD</button>
                             <button onclick="window.location.reload()">↻ REFRESH</button>
@@ -340,7 +340,7 @@ class ReverseIpController {
                         <pre id="diagnostics">DIAGNOSTICS_PLACEHOLDER</pre>
                     </div>
 
-                    <div id="terminalView" class="view-container hidden">
+                    <div id="terminalView" class="view-container active">
                         <div id="terminalOutput" class="terminal-output"></div>
                         <div class="terminal-input-container">
                             <span class="prompt">publicip&gt; </span>
@@ -649,8 +649,9 @@ Keyboard Shortcuts:
                         const dataScript = document.getElementById('diagnosticDataScript');
                         const diagnosticData = JSON.parse(dataScript.textContent);
 
-                        new ViewToggle();
+                        const viewToggle = new ViewToggle();
                         window.terminalInstance = new Terminal(diagnosticData);
+                        viewToggle.switchTo('terminal');
                     });
                 </script>
             </body>
